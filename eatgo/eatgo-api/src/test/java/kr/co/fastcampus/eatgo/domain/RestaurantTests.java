@@ -7,15 +7,17 @@ import static org.junit.Assert.*;
 
 public class RestaurantTests {
     @Test
-    public void creation(){
-        Restaurant restaurant = new Restaurant("Bob zip");
-        assertThat(restaurant.getBob_zip(),is("Bob zip"));
+    public void creation() {
+        Restaurant restaurant = new Restaurant(1004L, "Bob zip", "Seoul");
+        assertThat(restaurant.getId(), is(1004L));
+        assertThat(restaurant.getName(), is("Bob zip"));
+        assertThat(restaurant.getLocation(), is("Seoul"));
     }
 
     @Test
-    public void information(){
+    public void information() {
         Restaurant restaurant = new Restaurant("Bob zip", "Seoul");
-        assertThat(restaurant.getSeoul(),is("Seoul"));
+        assertThat(restaurant.getLocation(), is("Seoul"));
     }
 
 }

@@ -1,31 +1,42 @@
 package kr.co.fastcampus.eatgo.domain;
 
 public class Restaurant {
-    private String bob_zip;
-    private String seoul;
+    private long id;
+    private String name;
+    private String location;
 
-    public Restaurant(String bob_zip) {
-        this.bob_zip = bob_zip;
+    public Restaurant(String name, String location) {
+        this.name = name;
+        this.location = location;
     }
 
-    public Restaurant(String bob_zip, String seoul) {
-       this.bob_zip = bob_zip;
-       this.seoul = seoul;
+    public Restaurant(long id, String bob_zip, String seoul) {
+        this.id = id;
+        this.name = bob_zip;
+        this.location = seoul;
     }
 
-    public String getBob_zip() {
-        return bob_zip;
+    public String getName() {
+        return name;
     }
 
-    public void setBob_zip(String bob_zip) {
-        this.bob_zip = bob_zip;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSeoul() {
-        return seoul;
+    public String getLocation() {
+        return location;
     }
 
-    public void setSeoul(String seoul) {
-        this.seoul = seoul;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
