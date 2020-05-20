@@ -1,19 +1,20 @@
 package kr.co.fastcampus.eatgo.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Restaurant {
     private long id;
     private String name;
     private String location;
+    private List<MenuItem> menuItems = new ArrayList<>();
 
-    public Restaurant(String name, String location) {
-        this.name = name;
-        this.location = location;
+    public long getId() {
+        return id;
     }
 
-    public Restaurant(long id, String bob_zip, String seoul) {
+    public void setId(long id) {
         this.id = id;
-        this.name = bob_zip;
-        this.location = seoul;
     }
 
     public String getName() {
@@ -32,11 +33,22 @@ public class Restaurant {
         this.location = location;
     }
 
-    public long getId() {
-        return id;
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
     }
 
-    public void setId(int id) {
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
+
+    public Restaurant(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
+
+    public Restaurant(long id, String bob_zip, String seoul) {
         this.id = id;
+        this.name = bob_zip;
+        this.location = seoul;
     }
 }
