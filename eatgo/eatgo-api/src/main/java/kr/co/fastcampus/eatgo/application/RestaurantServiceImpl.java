@@ -10,10 +10,16 @@ import java.util.List;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
-    @Autowired
+//    @Autowired
     private RestaurantRepository restaurantRepository;
-    @Autowired
+
+//    @Autowired
     private MenuItemRepository menuItemRepository;
+
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository) {
+        this.restaurantRepository = restaurantRepository;
+        this.menuItemRepository = menuItemRepository;
+    }
 
     @Override
     public Restaurant getRestaurantById(long id) throws Exception {
