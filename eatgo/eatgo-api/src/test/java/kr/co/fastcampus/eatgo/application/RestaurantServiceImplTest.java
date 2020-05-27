@@ -14,9 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 public class RestaurantServiceImplTest {
@@ -46,20 +48,28 @@ public class RestaurantServiceImplTest {
         menuItems.add(new MenuItem(3L, "icecreamcake", 10000));
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
-        given(menuItemRepository.findAllRestaurants()).willReturn(menuItems);
+//        given(menuItemRepository.findAllByRestaurantId(any())).willReturn(menuItems);
 
-        given(restaurantRepository.findById(1004L)).willReturn(restaurants.get(0));
+        given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurants.get(0)));
     }
 
     @Test
     public void getRestaurant() throws Exception {
-        List<Restaurant> restaurants =  restaurantService.getRestaurants();
+        List<Restaurant> restaurants = restaurantService.getRestaurants();
         System.out.println(restaurants.get(0).getMenuItems().get(0).getName());
-        assertThat(restaurants.get(0).getName(),is("bob zip"));
+        assertThat(restaurants.get(0).getName(), is("bob zip"));
     }
 
     @Test
     public void getRestaurants() throws Exception {
         assertThat(restaurantService.getRestaurants().get(0).getId(), is(1004L));
+    }
+
+    @Test
+    public void addRestaurant() {
+        Restaurant restaurant = new Restaurant("junmo", "seoul");
+        given(restaurantRepository.save(any())).willReturn(restaurant);
+        Restaurant created = restaurantService.addRestaurant(restaurant);
+        assertThat(created.getId(), is(3040L));
     }
 }
