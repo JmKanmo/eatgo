@@ -16,6 +16,12 @@ public class MenuItem {
     public MenuItem() {
     }
 
+    public MenuItem(long id, String name, int price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
     public String getName() {
         return name;
     }
@@ -29,12 +35,6 @@ public class MenuItem {
     }
 
     public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public MenuItem(long id, String name, int price) {
-        this.id = id;
-        this.name = name;
         this.price = price;
     }
 
