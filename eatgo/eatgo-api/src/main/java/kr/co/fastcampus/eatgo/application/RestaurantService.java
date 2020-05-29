@@ -10,4 +10,6 @@ public interface RestaurantService {
     List<Restaurant> getRestaurants() throws Exception;
 
     Restaurant addRestaurant(Restaurant restaurant);
+
+    Restaurant updateRestaurant(long id, String name, String location);
 }

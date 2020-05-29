@@ -72,4 +72,13 @@ public class RestaurantServiceImplTest {
         Restaurant created = restaurantService.addRestaurant(restaurant);
         assertThat(created.getId(), is(3040L));
     }
+
+    @Test
+    public void updateRestaurant() {
+        Restaurant restaurant = new Restaurant(1004L, "", "");
+        given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
+        Restaurant updated = restaurantService.updateRestaurant(1004L, "Kanmo zip", "cheonan");
+        assertThat(updated.getName(), is("Kanmo zip"));
+        assertThat(updated.getLocation(), is("cheonan"));
+    }
 }

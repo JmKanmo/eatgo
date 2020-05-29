@@ -62,4 +62,9 @@ public class Restaurant {
     public void setMenuItems(List<MenuItem> menuItems) {
         this.menuItems = menuItems;
     }
+
+    public void updateInfo(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
 }
