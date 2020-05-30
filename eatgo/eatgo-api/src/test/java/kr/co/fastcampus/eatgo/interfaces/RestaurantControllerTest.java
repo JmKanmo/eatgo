@@ -49,7 +49,7 @@ public class RestaurantControllerTest {
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant(1004L, "Bob zip", "seoul"));
+        restaurants.add(Restaurant.builder().id(1004L).name("Bob zip").location("seoul").build());
 
         mvc.perform(get("/restaurants")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"id\":1004")))
@@ -65,15 +65,23 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void createWithValidData() throws Exception {
         mvc.perform(post("/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"jmkanmo\",\"id\":3450, \"location\":\"Cheonan\"}"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("location", "/restaursnts/3985"))
+                .andExpect(header().string("location", "/restaursnts/0"))
                 .andExpect(content().string("{}"));
 
         verify(restaurantService).addRestaurant(any());
+    }
+
+    @Test
+    public void createWithInvalidData() throws Exception {
+        mvc.perform(post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\",\"id\":3450, \"location\":\"\"}"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -82,7 +90,13 @@ public class RestaurantControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"jmkanmo\",\"location\":\"Cheonan\"}"))
                 .andExpect(status().isOk());
-
 //        verify(restaurantService).updateRestaurant(1004,"kanmo zip", "USA");
+    }
+    @Test
+    public void invalidUpdate() throws Exception {
+        mvc.perform(patch("/restaurants/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\",\"location\":\"\"}"))
+                .andExpect(status().isBadRequest());
     }
 }

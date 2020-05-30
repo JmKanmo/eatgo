@@ -40,12 +40,12 @@ public class RestaurantServiceImplTest {
         List<Restaurant> restaurants = new ArrayList<>();
         List<MenuItem> menuItems = new ArrayList<>();
 
-        restaurants.add(new Restaurant(1004L, "bob zip", "Seoul"));
-        restaurants.add(new Restaurant(2020L, "junmo zip", "Seoul"));
+        restaurants.add(Restaurant.builder().id(1004L).name ("bob zip").location("Seoul").build());
+        restaurants.add(Restaurant.builder().id(2020L).name ("junmo zip").location("Seoul").build());
 
-        menuItems.add(new MenuItem(1L, "kimchi", 5000));
-        menuItems.add(new MenuItem(2L, "jjajangmyun", 6000));
-        menuItems.add(new MenuItem(3L, "icecreamcake", 10000));
+        menuItems.add(MenuItem.builder().id(1L).name("kimchi").price(5000).build());
+        menuItems.add(MenuItem.builder().id(2L).name("jjajangmyun").price(6000).build());
+        menuItems.add(MenuItem.builder().id(3L).name("icecreamcake").price(10000).build());
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
 //        given(menuItemRepository.findAllByRestaurantId(any())).willReturn(menuItems);
@@ -67,7 +67,7 @@ public class RestaurantServiceImplTest {
 
     @Test
     public void addRestaurant() {
-        Restaurant restaurant = new Restaurant("junmo", "seoul");
+        Restaurant restaurant = Restaurant.builder().name("junmo").location("seoul").build();
         given(restaurantRepository.save(any())).willReturn(restaurant);
         Restaurant created = restaurantService.addRestaurant(restaurant);
         assertThat(created.getId(), is(3040L));
@@ -75,7 +75,7 @@ public class RestaurantServiceImplTest {
 
     @Test
     public void updateRestaurant() {
-        Restaurant restaurant = new Restaurant(1004L, "", "");
+        Restaurant restaurant = Restaurant.builder().id(2020L).build();
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
         Restaurant updated = restaurantService.updateRestaurant(1004L, "Kanmo zip", "cheonan");
         assertThat(updated.getName(), is("Kanmo zip"));
