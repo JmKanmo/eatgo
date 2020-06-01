@@ -17,10 +17,13 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override
     public boolean bulkUpdate(long restaurantId, List<MenuItem> menuItems) throws Exception {
-        for(MenuItem menuItem:menuItems){
-            menuItem.setRestaurantId(restaurantId);
-            menuItemRepository.save(menuItem);
-            System.out.println(menuItem.getId()+" "+menuItem.getName());
+        for (MenuItem menuItem : menuItems) {
+            if (menuItem.isDelete()) {
+                menuItemRepository.deleteById(menuItem.getId());
+            } else {
+                menuItem.setRestaurantId(restaurantId);
+                menuItemRepository.save(menuItem);
+            }
         }
         return true;
     }

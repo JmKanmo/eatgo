@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -30,9 +31,12 @@ public class MenuItemServiceTest {
     @Test
     public void bulkUpdate() throws Exception {
         List<MenuItem> menuItems = new ArrayList<>();
-        menuItems.add(MenuItem.builder().id(1L).name("zisoo").restaurantId(55L).price(39800).build());
+        menuItems.add(MenuItem.builder().name("zisoo").restaurantId(55L).price(39800).build());
         menuItems.add(MenuItem.builder().id(2L).name("zisoo").restaurantId(555L).price(15800).build());
+        menuItems.add(MenuItem.builder().id(5L).delete(true).build());
         menuItemService.bulkUpdate(1L,menuItems);
+
         verify(menuItemRepository,times(2)).save(any());
+        verify(menuItemRepository,times(1)).deleteById(eq(5L));
     }
 }
