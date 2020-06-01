@@ -1,14 +1,12 @@
 package kr.co.fastcampus.eatgo.interfaces;
 
 import kr.co.fastcampus.eatgo.application.RestaurantService;
-import kr.co.fastcampus.eatgo.application.RestaurantServiceImpl;
 import kr.co.fastcampus.eatgo.domain.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -57,11 +54,19 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void detail() throws Exception {
+    public void detailWithExised() throws Exception {
 //        given(restaurantService.getRestaurantById(1004L)).willReturn(new Restaurant(1004L,"fuck that","Seoul"));
         mvc.perform(get("/restaurants/1004")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
                 .andExpect(content().string(containsString("kimchi")));
+    }
+
+    @Test
+    public void detailWithNotExised() throws Exception {
+        given(restaurantService.getRestaurantById(4044L)).willThrow(new RestaurantNotFoundException(4044L));
+        mvc.perform(get("/restaurants/4044"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("{}"));
     }
 
     @Test
@@ -92,6 +97,7 @@ public class RestaurantControllerTest {
                 .andExpect(status().isOk());
 //        verify(restaurantService).updateRestaurant(1004,"kanmo zip", "USA");
     }
+
     @Test
     public void invalidUpdate() throws Exception {
         mvc.perform(patch("/restaurants/1004")

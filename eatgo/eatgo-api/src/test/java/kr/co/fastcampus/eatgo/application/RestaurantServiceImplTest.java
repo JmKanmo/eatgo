@@ -54,10 +54,15 @@ public class RestaurantServiceImplTest {
     }
 
     @Test
-    public void getRestaurant() throws Exception {
+    public void getRestaurantWithExisted() throws Exception {
         List<Restaurant> restaurants = restaurantService.getRestaurants();
         System.out.println(restaurants.get(0).getMenuItems().get(0).getName());
         assertThat(restaurants.get(0).getName(), is("bob zip"));
+    }
+
+    @Test(expected = RestaurantNotFoundException.class)
+    public void getRestaurantWithNotExisted() throws Exception {
+        restaurantService.getRestaurantById(4044L);
     }
 
     @Test

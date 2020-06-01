@@ -22,8 +22,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant getRestaurantById(long id) throws Exception {
-        Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
-        if (restaurant != null) restaurant.setMenuItems((List<MenuItem>) menuItemRepository.findAllByRestaurantId(id));
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()->new RestaurantNotFoundException(id));
+        restaurant.setMenuItems((List<MenuItem>) menuItemRepository.findAllByRestaurantId(id));
         return restaurant;
     }
 
@@ -31,9 +31,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<Restaurant> getRestaurants() throws Exception {
         List<Restaurant> restaurants = restaurantRepository.findAll();
 
-        for (Restaurant restaurant : restaurants) {
-            restaurant.setMenuItems((List<MenuItem>) menuItemRepository.findAllByRestaurantId(restaurant.getId()));
-        }
+//        for (Restaurant restaurant : restaurants) {
+//            restaurant.setMenuItems(menuItemRepository.findAllByRestaurantId(restaurant.getId()));
+//        }
         return restaurants;
     }
 
