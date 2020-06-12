@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
@@ -26,15 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
-
-//    @SpyBean(RestaurantRepositoryImpl.class)
-//    private RestaurantRepository restaurantRepository;
-//
-//    @SpyBean(MenuItemRepositoryImpl.class)
-//    private MenuItemRepository menuItemRepository;
-//
-//    @SpyBean(RestaurantServiceImpl.class)
-//    private RestaurantService restaurantService;
 
     @MockBean
     private RestaurantRepository restaurantRepository;
@@ -55,10 +47,20 @@ public class RestaurantControllerTest {
 
     @Test
     public void detailWithExised() throws Exception {
-//        given(restaurantService.getRestaurantById(1004L)).willReturn(new Restaurant(1004L,"fuck that","Seoul"));
+        Restaurant restaurant = Restaurant.builder().id(1004L).name("JmKanmo").location("cheonan").build();
+        MenuItem menuItem = MenuItem.builder().name("Kimchi").price(5000).build();
+        restaurant.setMenuItems(Arrays.asList(menuItem));
+
+        Review review = Review.builder().name("JmKanmo").score(100).description("맛잇어요").build();
+
+        restaurant.setReview(Arrays.asList(review));
+
+        given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
+
         mvc.perform(get("/restaurants/1004")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
-                .andExpect(content().string(containsString("kimchi")));
+                .andExpect(content().string(containsString("\"name\":\"JmKanmo\"")))
+                .andExpect(content().string(containsString("Kimchi")))
+                .andExpect(content().string(containsString("맛잇어요")));
     }
 
     @Test

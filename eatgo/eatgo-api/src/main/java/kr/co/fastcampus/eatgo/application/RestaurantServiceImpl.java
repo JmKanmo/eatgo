@@ -15,25 +15,25 @@ public class RestaurantServiceImpl implements RestaurantService {
     //    @Autowired
     private MenuItemRepository menuItemRepository;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository) {
+    private ReviewRepository reviewRepository;
+
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, MenuItemRepository menuItemRepository,ReviewRepository reviewRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemRepository = menuItemRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
     public Restaurant getRestaurantById(long id) throws Exception {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(()->new RestaurantNotFoundException(id));
-        restaurant.setMenuItems((List<MenuItem>) menuItemRepository.findAllByRestaurantId(id));
+        restaurant.setMenuItems(menuItemRepository.findAllByRestaurantId(id));
+        restaurant.setReview(reviewRepository.findAllByRestaurantId(id));
         return restaurant;
     }
 
     @Override
     public List<Restaurant> getRestaurants() throws Exception {
         List<Restaurant> restaurants = restaurantRepository.findAll();
-
-//        for (Restaurant restaurant : restaurants) {
-//            restaurant.setMenuItems(menuItemRepository.findAllByRestaurantId(restaurant.getId()));
-//        }
         return restaurants;
     }
 
